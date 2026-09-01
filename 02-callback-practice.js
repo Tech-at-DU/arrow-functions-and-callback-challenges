@@ -1,125 +1,261 @@
+// ============================================================
+// CALLBACK + ARROW FUNCTION PRACTICE
+// ============================================================
+//
+// A callback is a function you pass as an argument to another
+// function. The other function calls it back for you. Callbacks
+// are everywhere in JavaScript: timers, array methods, event
+// handlers, network requests.
+//
+// GOAL: get every check below to print ✅
+//
+// HOW TO RUN:   node 02-callback-practice.js
+//
+// PAIR RULE: switch driver at every numbered section.
+// Predict first, run second, fix third.
+// ============================================================
 
 
-// These functions take callbacks.
-// Use an arrow function for the callback. 
+// ---- test helper -------------------------------------------
+// You do not need to edit this. It compares what your code
+// produced against the expected answer and prints ✅ or ❌.
 
-// Here are some built in functions that use callbacks
+const check = (label, actual, expected) => {
+	const pass = JSON.stringify(actual) === JSON.stringify(expected)
+	if (pass) {
+		console.log(`✅ ${label}`)
+	} else {
+		console.log(`❌ ${label} — got ${JSON.stringify(actual)}, want ${JSON.stringify(expected)}`)
+	}
+}
+
+
+// ============================================================
+// WARM UP — diagnose the bug (no rewriting, just find it)
+// ============================================================
+//
+// Each snippet below is meant to run a callback once. Each is
+// broken in a different, very common way. In a comment next to
+// each one, write WHAT is wrong. Then fix it so it logs "run".
+
+// A)
+// setTimeout(console.log('run'), 100)
+// your diagnosis:
+
+// B)
+// const later = () => console.log('run')
+// setTimeout(later(), 100)
+// your diagnosis:
+
+// C)
+// [1].forEach(() => console.log)
+// your diagnosis:
 
 
 console.log('1 ------------------------------')
 
-// TODO: The setTimeout function takes a callback. I've used a 
-// regular function you should change it to an arrow function
+// PREDICT: three sections below all call setTimeout. Before you
+// run the file, write the order you expect these lines to print:
+//   "1 ---", "2 ---", "3 ---", "Example 1 - one second later",
+//   "printed 3 seconds later"
+//
+// your prediction:
+//
+//
+// (Surprised? That is the point. setTimeout does not block. The
+// callback is parked until the call stack is empty.)
 
-setTimeout(function() {
+// TODO: this setTimeout uses a regular function. Change the
+// callback to an arrow function. Behavior stays the same.
+
+setTimeout(function () {
 	console.log('Example 1 - one second later')
 }, 1000)
 
 
-// A Callback is a function you pass as a parameter to 
-// a function. These appear everywhere in javascript
-
 console.log('2 ------------------------------')
 
-// TODO: use setTimeout to print a message 3 seconds in the future:
+// TODO: call setTimeout yourself. Use an arrow function callback
+// that logs "printed 3 seconds later". Delay: 3000 ms.
 
 
 
 
 console.log('3 ------------------------------')
 
-const primes = [1,2,3,5,7]
+// forEach runs its callback once per item in the array, passing
+// that item in as the first argument.
 
-// Using forEach() often you'll have a loop and want to 
-// iterate over each element in the loop.
+const numbers = [2, 3, 5, 7, 11]
 
-// Use forEach like this: numbers.forEach(() => {})
-// Here we passed a callback into forEach and forEach
-// executes the callback once for each item in the array
-// passing one value from the array each iteration
-
-primes.forEach((n) => {
-	// This function is the callback
-	// n is a value from the numbers array
+numbers.forEach((n) => {
+	// this arrow function is the callback. n is one item.
 	console.log(n)
 })
 
-// TODO: Use foreach to double each number in the numbers array
-// print the new value to the console. 
+// TODO: use forEach to build `doubled` — each number times 2.
+// Push each result into the array, then the check runs.
+const doubled = []
 
+// ...your forEach here...
 
-// TODO: Use forEach to print only the even numbers to the console
-// You know a number is even if n % 2 === 0
+check('3a doubled', doubled, [4, 6, 10, 14, 22])
 
-// The forEach method calls the provided function with the following
-// parameters: item, index, array.
-// Read the documentation here: 
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
-// https://javascript.info/callbacks
-// https://javascript.info/array-methods#iterate-foreach
+// THINK: forEach always returns undefined, so you needed an
+// outside array to collect results. Which array method is built
+// for "transform every item into a new array"? Write it here:
+//
+
+// TODO: use forEach to fill `evens` with only the even numbers.
+// A number is even when  n % 2 === 0
+const evens = []
+
+// ...your forEach here...
+
+check('3b evens', evens, [2])
+
 
 console.log('4 ------------------------------')
 
-// After reading the documentation you may have noticed that
-// forEach supplies three parameters to the callback: item, index, and array
-// These extra parameters are not always needed so they are often omitted. 
-// Some times they can be useful. 
+// forEach actually passes THREE arguments to the callback:
+//   item, index, array
+// You take only the ones you need.
+// docs: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
 
-primes.forEach((item, index, arr) => {
+numbers.forEach((item, index, arr) => {
 	console.log(item, index, arr)
 })
 
-// TODO: Use the index. Multiply each value by it's index in the array and 
-// print the value to the console
+// TODO: fill `byIndex` — each value multiplied by its own index.
+//   numbers[0] * 0, numbers[1] * 1, numbers[2] * 2, ...
+const byIndex = []
 
+// ...your forEach here...
+
+check('4 byIndex', byIndex, [0, 3, 10, 21, 44])
 
 
 console.log('5 ------------------------------')
 
-/* TODO: ***********************************************
-For each of the names in the array below print
-them to the console. use Array.forEach()
-The callback in foreach receives a parameter that 
-is an item from the array. In this case a name.
-*/
 const names = ['Andy', 'Boba', 'Kris', 'Dana']
 
+// TODO: fill `plain` with each name, unchanged, using forEach.
+const plain = []
+
+// ...your forEach here...
+
+check('5a plain', plain, ['Andy', 'Boba', 'Kris', 'Dana'])
+
+// TODO: fill `numbered` so each entry is "<index + 1>) <name>":
+//   "1) Andy", "2) Boba", "3) Kris", "4) Dana"
+const numbered = []
+
+// ...your forEach here...
+
+check('5b numbered', numbered, ['1) Andy', '2) Boba', '3) Kris', '4) Dana'])
+
+// TODO: use forEach + setTimeout together to print each name on
+// its own line, staggered by 1200 ms — Andy at 1200, Boba at
+// 2400, Kris at 3600, Dana at 4800.
+// HINT: use the index to compute the delay.
 
 
-
-/* ***********************************************
-forEach provides a second parameter to it's
-callback that is the index. Print each name from
-from the array preceded by it's index + 1 and the )
-like this: 
-
-1) Andy
-2) Boba
-3) Kris
-4) Dana
-
-*/
-
-
-/* ************************************************
-Use forEach and setTimeout to print each name
-with a delay of 1200ms.
-*/
 
 
 console.log('6 ------------------------------')
 
-// These callbacks and forEach are really useful. You'll 
-// see these everywhere in js! You need to take this 
-// further! 
+// THIS IS WHY ARROW FUNCTIONS MATTER FOR CALLBACKS.
+//
+// A regular function gets its own `this`. An arrow function does
+// not — it borrows `this` from where it was defined.
 
-// Imagine that forEach did not exist! Can you write your own? 
+const timer = {
+	seconds: 0,
 
-// TODO: Write a function forEvery() it should an array and a 
-// callback as arguments. For each item in the array call the 
-// callback and pass the item, the index, and the array into 
-// the callback as arguments. 
+	// broken: the callback is a regular function, so inside it
+	// `this` is NOT the timer object.
+	startBroken() {
+		setTimeout(function () {
+			this.seconds += 1
+			console.log('broken:', this.seconds)
+		}, 100)
+	},
 
-// NOTE! Do not use arr.forEach() to solve this problem! 
+	// TODO: write startFixed(). Same body, but make it actually
+	// increment timer.seconds and log 1. Change ONE thing.
+	startFixed() {
+
+	},
+}
+
+timer.startBroken() // watch this print "broken: NaN"
+
+// TODO: after you write startFixed, uncomment:
+// setTimeout(() => timer.startFixed(), 200)
+// setTimeout(() => check('6 this binding', timer.seconds, 1), 400)
 
 
+console.log('7 ------------------------------')
+
+// Real world: a callback that runs "later", after fake network
+// delay. This stand-in for fetch takes an id and a callback.
+
+const fetchUser = (id, callback) => {
+	setTimeout(() => {
+		callback({ id, name: `User${id}` })
+	}, 200)
+}
+
+// TODO: fetch user 1. In the callback, push user.name into
+// `oneUser`, then the check runs (also delayed, so it sees it).
+const oneUser = []
+
+// ...your fetchUser call here...
+
+setTimeout(() => check('7a one user', oneUser, ['User1']), 500)
+
+// TODO: fetch users 1, 2, 3. Use forEach over [1, 2, 3].
+// Push each name into `manyUsers`.
+const manyUsers = []
+
+// ...your forEach + fetchUser here...
+
+setTimeout(() => check('7b many users', manyUsers.sort(), ['User1', 'User2', 'User3']), 800)
+
+// STRETCH: chain three setTimeouts to print a countdown, one
+// number per second:  "3"  then  "2"  then  "1"  then  "Go".
+// Notice how nesting callbacks inside callbacks gets ugly fast.
+// That pain is why Promises and async/await exist — next lesson.
+
+
+
+
+console.log('8 ------------------------------')
+
+// Imagine forEach did not exist. Build it.
+
+// TODO: write forEvery(arr, callback). For each item in arr,
+// call callback(item, index, arr).
+// DO NOT use arr.forEach() to solve this.
+
+const forEvery = (arr, callback) => {
+
+}
+
+// harness: your forEvery must behave exactly like native forEach
+const fromMine = []
+const fromNative = []
+forEvery([10, 20, 30], (v, i) => fromMine.push([v, i]))
+;[10, 20, 30].forEach((v, i) => fromNative.push([v, i]))
+check('8 forEvery matches forEach', fromMine, fromNative)
+
+// STRETCH A: write mapClone(arr, callback) — returns a NEW array
+// of each callback return value. Do not use arr.map().
+// STRETCH B: write filterClone(arr, callback) — returns a NEW
+// array of items where callback(item) is truthy. Do not use
+// arr.filter().
+
+// const mapClone = (arr, callback) => {}
+// const filterClone = (arr, callback) => {}
+// check('S-A mapClone', mapClone([1, 2, 3], (n) => n * 10), [10, 20, 30])
+// check('S-B filterClone', filterClone([1, 2, 3, 4], (n) => n % 2 === 0), [2, 4])
